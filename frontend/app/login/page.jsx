@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -15,13 +16,14 @@ const Login = () => {
     name: "",
     phone: "",
     badgeNumber: "",
+    adminId: "",
     password: "",
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!role || !["police", "citizen", "anonymous"].includes(role)) {
+    if (!role || !["police", "citizen", "anonymous", "community"].includes(role)) {
       router.push("/");
     }
     if (role === "anonymous") {
@@ -31,11 +33,10 @@ const Login = () => {
   }, [role, router]);
 
   const handleChange = (e) => {
-    e.preventDefault()
     const { name, value } = e.target;
     setCredentials((prev) => ({
       ...prev,
-      [name]: value,  // Dynamically update the correct field
+      [name]: value,
     }));
   };
 
@@ -44,7 +45,9 @@ const Login = () => {
     setError("");
     setLoading(true);
 
-    const endpoint = isSignup ? "http://localhost:5001/api/users/register" : "http://localhost:5001/api/users/login";
+    const endpoint = isSignup
+      ? "http://localhost:5001/api/users/register"
+      : "http://localhost:5001/api/users/login";
     const payload = { ...credentials, role };
 
     try {
@@ -56,7 +59,6 @@ const Login = () => {
 
       const data = await response.json();
       console.log("API Response:", data);
-
 
       if (!response.ok) {
         throw new Error(data.message || "Something went wrong");
@@ -77,18 +79,19 @@ const Login = () => {
     }
   };
 
+  const capitalizedRole = role?.charAt(0).toUpperCase() + role?.slice(1);
+
   return (
     <>
       {/* <Navbar /> */}
       {role !== "anonymous" && (
         <div className="min-h-screen flex items-center bg-gradient-to-b from-gray-900 to-blue-900">
-          {/* Left Section: Login Box */}
           <div className="flex flex-col items-center justify-center">
             <h1 className="text-5xl pb-8 pl-16 font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-300">
-              Login as {role?.charAt(0).toUpperCase() + role?.slice(1)}
+              {isSignup ? "Sign Up" : "Login"} as {capitalizedRole}
             </h1>
+
             <div className="w-full max-w-md p-8 bg-gray-800 rounded-xl shadow-xl flex-shrink-0 ml-20">
-              {/* Title above the login box */}
               {error && (
                 <p className="text-red-400 text-sm text-center">{error}</p>
               )}
@@ -102,7 +105,7 @@ const Login = () => {
                       placeholder="Badge Number"
                       className="w-full p-3 rounded-lg bg-gray-700 text-white focus:ring focus:ring-blue-500"
                       value={credentials.badgeNumber}
-                      onChange={handleChange} 
+                      onChange={handleChange}
                     />
                     <input
                       type="text"
@@ -110,61 +113,73 @@ const Login = () => {
                       placeholder="Name"
                       className="w-full p-3 rounded-lg bg-gray-700 text-white focus:ring focus:ring-blue-500"
                       value={credentials.name}
-                      onChange={handleChange} 
+                      onChange={handleChange}
                     />
                   </>
                 )}
+
                 {role === "citizen" && (
                   <>
                     <input
-                      type="string"
+                      type="text"
                       name="name"
                       placeholder="Name"
                       className="w-full p-3 rounded-lg bg-gray-700 text-white focus:ring focus:ring-blue-500"
                       value={credentials.name}
-                      onChange={handleChange} 
+                      onChange={handleChange}
                     />
-                    <input
-                      type="Number"
+                   <input
+                      type="tel"
                       name="phone"
                       placeholder="Mobile Number"
                       className="w-full p-3 rounded-lg bg-gray-700 text-white focus:ring focus:ring-blue-500"
-                      value={credentials.mobile}
-                      onChange={handleChange} 
+                      value={credentials.phone}
+                      onChange={handleChange}
+                      onInput={(e) => {
+                        e.target.value = e.target.value.replace(/[^0-9]/g, '');
+                      }}
+                      maxLength="10"
                     />
+
                   </>
                 )}
+
                 {role === "community" && (
                   <>
                     <input
                       type="text"
-                      placeholder="Admin ID"
                       name="adminId"
+                      placeholder="Admin ID"
                       className="w-full p-3 rounded-lg bg-gray-700 text-white focus:ring focus:ring-blue-500"
                       value={credentials.adminId}
-                      onChange={handleChange} 
-                    />
-                    <input
-                      type="password"
-                      name="password"
-                      placeholder="Password"
-                      className="w-full p-3 rounded-lg bg-gray-700 text-white focus:ring focus:ring-blue-500"
-                      value={credentials.password}
-                      onChange={handleChange} 
+                      onChange={handleChange}
                     />
                   </>
                 )}
+
+                {/* Common password input for all except anonymous */}
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  className="w-full p-3 rounded-lg bg-gray-700 text-white focus:ring focus:ring-blue-500"
+                  value={credentials.password}
+                  onChange={handleChange}
+                />
+
                 <button
                   type="submit"
-                  className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700"
+                  disabled={loading}
+                  className={`w-full ${
+                    loading ? "bg-gray-500" : "bg-blue-600 hover:bg-blue-700"
+                  } text-white p-3 rounded-lg transition`}
                 >
-                  {isSignup ? "Sign Up" : "Login"}
+                  {loading ? "Please wait..." : isSignup ? "Sign Up" : "Login"}
                 </button>
               </form>
+
               <p className="text-gray-400 text-sm text-center mt-4">
-                {isSignup
-                  ? "Already have an account?"
-                  : "Don't have an account?"}{" "}
+                {isSignup ? "Already have an account?" : "Don't have an account?"}{" "}
                 <button
                   className="text-blue-400 hover:underline"
                   onClick={() => setIsSignup(!isSignup)}
@@ -175,17 +190,16 @@ const Login = () => {
             </div>
           </div>
 
-          {/* Right Section: Image */}
-          <div className="absolute top-4 right-8 bottom-4 w-1/2 h-99% rounded-3xl overflow-hidden">
+          {/* Right Section: Role-specific background image */}
+          <div className="absolute top-4 right-8 bottom-4 w-1/2 h-[95%] rounded-3xl overflow-hidden">
             <img
-              src={[role]+"Bg.jpg" || "/defaultBg.jpg"}
-              alt="Login Image"
+              src={`/${role ?? "default"}Bg.jpg`}
+              alt="Login Background"
               className="w-full h-full object-cover rounded-3xl"
             />
           </div>
         </div>
       )}
-      {/* <Footer /> */}
     </>
   );
 };
