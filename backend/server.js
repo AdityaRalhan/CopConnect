@@ -12,8 +12,10 @@ import policeCaseRoutes from './routes/policeCaseRoutes.js';
 import anonymousRoutes from './routes/anonymousRoutes.js';
 import faqRoutes from './routes/faqRoutes.js';
 import PublicChatMessage from './models/publicChatModel.js';
+import informationRoute from './routes/informationRoute.js'
 import PublicChatMessageRoutes from './routes/publicChatRoutes.js';
 // import copNotesRoutes from './routes/copNotesRoutes.js';
+
 
 const app = express();
 const server = http.createServer(app); // Create HTTP server
@@ -83,6 +85,7 @@ app.use('/api/cases', policeCaseRoutes);
 app.use('/api/anonymous', anonymousRoutes);
 app.use('/api/faqs', faqRoutes);
 app.use('/api/public-chat', PublicChatMessageRoutes);
+app.use('/api/information', informationRoute); 
 // app.use('/api/copNotes', copNotesRoutes);
 
 // Handle unknown routes
