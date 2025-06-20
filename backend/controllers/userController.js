@@ -73,7 +73,19 @@ export const loginUser = async (req, res) => {
           .status(400)
           .json({ message: "Name and badge number are required" });
 
-      user = await User.findOne({ name, badgeNumber });
+      // Find a user document in the database with the given name
+      user = await User.findOne({ name });
+
+      // If no user is found, return a 401 Unauthorized error
+      if (!user)
+        return res.status(401).json({ message: "Invalid credentials" });
+
+      // Compare badgeNumber from the request with the hashed one in the database
+      const isMatch = await bcrypt.compare(badgeNumber, user.badgeNumber);
+
+      // If the badgeNumber does not match, return a 401 Unauthorized error
+      if (!isMatch)
+        return res.status(401).json({ message: "Invalid credentials" });
     } else if (role === "citizen") {
       const { name, phone } = req.body;
       if (!name || !phone)
