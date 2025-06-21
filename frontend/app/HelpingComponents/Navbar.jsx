@@ -9,9 +9,9 @@ const Navbar = () => {
         <div className="flex justify-between h-16 items-center">
           <div className="flex items-center">
             <Shield className="text-blue-400 h-8 w-8" />
-            <span className="ml-2 text-2xl font-bold text-white">
+            <Link href="/" className="ml-2 text-2xl font-bold text-white">
               CopConnect
-            </span>
+            </Link>
           </div>
           <Link href="/supportPages/about" className="text-blue-300 hover:text-blue-100 transition-colors">
             About Us
