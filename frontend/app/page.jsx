@@ -151,7 +151,7 @@ const CopConnectLanding = () => {
                 </Link>
 
                 {/* Citizen Button */}
-                <Link href="/login?role=citizen" className="block group">
+                <Link href="/login?role=citizen" replace className="block group">
                   <motion.div
                     initial={{ opacity: 0, x: -30 }}
                     animate={{ opacity: 1, x: 0 }}

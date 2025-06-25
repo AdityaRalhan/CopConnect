@@ -115,43 +115,46 @@ export const getAllCases = async (req, res) => {
   }
 };
 
-export const markAsResolved = async(req, res) => {
-    const { caseNumber } = req.body;
-  
-    try {
-      const caseToUpdate = await PoliceCase.findOne({ caseNumber });
-  
-      if (!caseToUpdate) {
-        return res.status(404).json({ message: "Case not found" });
-      }
-  
-      caseToUpdate.status = "Closed";
-      await caseToUpdate.save();
-  
-      res.status(200).json({ message: "Case marked as Closed", case: caseToUpdate });
-    } catch (error) {
-      console.error("Error updating case:", error);
-      res.status(500).json({ message: "Server error" });
+export const markAsResolved = async (req, res) => {
+  const { caseNumber } = req.body;
+
+  try {
+    const caseToUpdate = await PoliceCase.findOne({ caseNumber });
+
+    if (!caseToUpdate) {
+      return res.status(404).json({ message: "Case not found" });
     }
-  };
+
+    caseToUpdate.status = "Closed";
+    await caseToUpdate.save();
+
+    res.status(200).json({ message: "Case marked as Closed", case: caseToUpdate });
+  } catch (error) {
+    console.error("Error updating case:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
 
 export const getCaseByVictimContact = async (req, res) => {
-    try {
-      const { contact } = req.query;
-  
-      if (!contact) {
-        return res.status(400).json({ message: 'Victim contact info is required.' });
-      }
-  
-      const cases = await PoliceCase.find({ victimContactInfo: contact });
-  
-      if (cases.length === 0) {
-        return res.status(404).json({ message: 'No cases found for the provided contact info.' });
-      }
-  
-      return res.status(200).json({ cases });
-    } catch (error) {
-      console.error('Error fetching cases by victim contact:', error);
-      res.status(500).json({ message: 'Server error' });
+  try {
+    const contact = req.query.contact?.trim();
+
+    if (!contact) {
+      return res.status(400).json({ message: 'Victim contact info is required.' });
     }
-  };
+
+    console.log("🔍 Searching for contact:", contact);
+
+    const cases = await PoliceCase.find({
+      victimContactInfo: { $regex: contact, $options: 'i' },
+    });
+
+    console.log("🗂️ Cases found:", cases.length);
+
+    return res.status(200).json({ cases });
+  } catch (error) {
+    console.error('Error fetching cases by victim contact:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
