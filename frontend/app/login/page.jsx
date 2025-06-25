@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-
 import Navbar from "../HelpingComponents/Navbar";
+import Image from "next/image";
 
 const Login = () => {
   const router = useRouter();
@@ -15,13 +15,14 @@ const Login = () => {
     name: "",
     phone: "",
     badgeNumber: "",
+    adminId: "",
     password: "",
   });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!role || !["police", "citizen", "anonymous"].includes(role)) {
+    if (!role || !["police", "citizen", "community", "anonymous"].includes(role)) {
       router.push("/");
     }
     if (role === "anonymous") {
@@ -73,107 +74,174 @@ const Login = () => {
     }
   };
 
-  const getImageSrc = () => {
-    const imageMap = {
-      police: "/policeBg.jpg",
-      citizen: "/citizenBg.jpg",
-      anonymous: "/anonymousBg.jpg",
-    };
-    return imageMap[role] || "/defaultBg.jpg";
-  };
-
   return (
     <>
       <Navbar />
       {role !== "anonymous" && (
-        <div className="min-h-screen bg-gradient-to-b from-gray-900 to-blue-900 text-white flex flex-col lg:flex-row items-center justify-center px-4 pt-6 pb-16 lg:pt-8 lg:pb-8 gap-8">
-          {/* Left: Form Section */}
-          <div className="w-full max-w-md bg-gray-800 rounded-xl shadow-xl p-8">
-            <h1 className="text-3xl lg:text-4xl font-bold text-center mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-300">
-              {isSignup ? "Sign Up" : "Login"} as{" "}
-              {role?.charAt(0).toUpperCase() + role?.slice(1)}
+        <div className="min-h-screen bg-gradient-to-br from-gray-950 to-blue-950 text-white flex flex-col lg:flex-row items-center justify-center px-6 py-10 gap-10">
+          {/* Hero Text Section */}
+          <div className="w-full max-w-xl p-8 rounded-3xl bg-gradient-to-br from-blue-900/40 to-blue-800/10 border border-white/10 shadow-xl backdrop-blur-md">
+            <h2 className="text-4xl font-bold text-cyan-300 mb-4">
+              {role === "citizen"
+                ? "Empowering Citizens"
+                : role === "police"
+                ? "Police Access Portal"
+                : role === "community"
+                ? "For Community Helpers"
+                : "Secure Access"}
+            </h2>
+            <p className="text-white/80 text-lg mb-6 leading-relaxed">
+              {role === "citizen"
+                ? "Raise complaints, get updates, and connect with law enforcement — all in one place."
+                : role === "police"
+                ? "Log in securely to view and manage public reports and community safety tasks."
+                : role === "community"
+                ? "Support citizens, report issues, and contribute to a safer neighborhood."
+                : "Get started with CopConnect to access your dashboard."}
+            </p>
+
+            {role === "citizen" && (
+              <div className="flex flex-col md:flex-row items-center gap-5">
+                
+                <ul className="space-y-3 text-white/70 text-base md:w-1/2">
+                  <li>📌 Register and track your complaints</li>
+                  <li>📞 Reach out to local police</li>
+                  <li>📍 Get real-time status updates</li>
+                </ul>
+                <div className="md:w-1/2">
+                  <Image
+                    src="/citizenBg.jpg"
+                    alt="Citizen Illustration"
+                    width={300}
+                    height={200}
+                    className="w-full h-auto max-w-sm rounded-xl object-cover shadow-lg"
+                  />
+                </div>
+              </div>
+            )}
+
+            {role === "police" && (
+  <div className="flex flex-col md:flex-row items-center gap-4">
+    <ul className="space-y-3 text-white/70 text-base md:w-1/2">
+      <li>🔐 Access complaint database</li>
+      <li>📊 Monitor case progress</li>
+      <li>🗂️ Verify citizen reports</li>
+    </ul>
+    <div className="md:w-1/2">
+      <Image
+        src="/policeBg.jpg"
+        alt="Police Illustration"
+        width={300}
+        height={200}
+        className="rounded-xl object-cover shadow-md"
+      />
+    </div>
+  </div>
+)}
+
+
+            {role === "community" && (
+              <ul className="space-y-3 text-white/70 text-base">
+                <li>💡 Help moderate neighborhood reports</li>
+                <li>🔗 Collaborate with local officers</li>
+                <li>📣 Spread awareness & info</li>
+              </ul>
+            )}
+          </div>
+
+          {/* Form Section */}
+          <div className="w-full max-w-md bg-white/10 border border-white/20 rounded-2xl shadow-2xl p-10 backdrop-blur-md">
+            <h1 className="text-3xl font-bold text-center text-white mb-6">
+              {isSignup ? "Create your account" : "Welcome back"}
+              <span className="block text-sm font-medium text-blue-300 mt-1">
+                {isSignup ? `Signing up as ${role}` : `Logging in as ${role}`}
+              </span>
             </h1>
 
-            {error && <p className="text-red-400 text-sm text-center">{error}</p>}
+            {error && <p className="text-red-400 text-sm text-center mb-4">{error}</p>}
 
-            <form onSubmit={handleAuth} className="space-y-4 mt-4">
+            <form onSubmit={handleAuth} className="space-y-5">
               {role === "police" && (
                 <>
                   <input
                     type="text"
                     name="badgeNumber"
-                    placeholder="Badge Number"
-                    className="input-style"
+                    placeholder="👮 Badge Number"
+                    className="w-full px-4 py-3 rounded-lg bg-white/10 text-white placeholder-white/70 border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-al"
                     value={credentials.badgeNumber}
                     onChange={handleChange}
                   />
                   <input
                     type="text"
                     name="name"
-                    placeholder="Name"
-                    className="input-style"
+                    placeholder="🧑 Name"
+                    className="w-full px-4 py-3 rounded-lg bg-white/10 text-white placeholder-white/70 border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-al"
                     value={credentials.name}
                     onChange={handleChange}
                   />
                 </>
               )}
+
               {role === "citizen" && (
                 <>
                   <input
                     type="text"
                     name="name"
-                    placeholder="Name"
-                    className="input-style"
+                    placeholder="🧑 Name"
+                    className="w-full px-4 py-3 rounded-lg bg-white/10 text-white placeholder-white/70 border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-al"
                     value={credentials.name}
                     onChange={handleChange}
                   />
                   <input
                     type="text"
                     name="phone"
-                    placeholder="Mobile Number"
-                    className="input-style"
+                    placeholder="📱 Mobile Number"
+                    className="w-full px-4 py-3 rounded-lg bg-white/10 text-white placeholder-white/70 border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-al"
                     value={credentials.phone}
                     onChange={handleChange}
                   />
                 </>
               )}
+
               {role === "community" && (
                 <>
                   <input
                     type="text"
                     name="adminId"
-                    placeholder="Admin ID"
-                    className="input-style"
+                    placeholder="🆔 Admin ID"
+                    className="w-full px-4 py-3 rounded-lg bg-white/10 text-white placeholder-white/70 border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-al"
                     value={credentials.adminId}
                     onChange={handleChange}
                   />
                   <input
                     type="password"
                     name="password"
-                    placeholder="Password"
-                    className="input-style"
+                    placeholder="🔒 Password"
+                    className="w-full px-4 py-3 rounded-lg bg-white/10 text-white placeholder-white/70 border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-al"
                     value={credentials.password}
                     onChange={handleChange}
                   />
                 </>
               )}
+
               <input
                 type="password"
                 name="password"
-                placeholder="Password"
-                className="input-style"
+                placeholder="🔒 Password"
+                className="w-full px-4 py-3 rounded-lg bg-white/10 text-white placeholder-white/70 border border-white/20 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-al"
                 value={credentials.password}
                 onChange={handleChange}
               />
+
               <button
                 type="submit"
-                className="w-full bg-blue-600 p-3 rounded-lg hover:bg-blue-700 transition"
+                className="w-full bg-gradient-to-r from-blue-500 to-cyan-500 text-white py-3 rounded-lg text-lg font-semibold hover:brightness-110 transition-all"
               >
-                {loading ? "Please wait..." : isSignup ? "Sign Up" : "Login"}
+                {loading ? "Please wait..." : isSignup ? "Create Account" : "Login"}
               </button>
             </form>
 
-            <p className="text-center text-sm text-gray-400 mt-4">
+            <p className="text-center text-sm text-gray-300 mt-6">
               {isSignup ? "Already have an account?" : "Don't have an account?"}{" "}
               <button
                 className="text-blue-400 hover:underline"
@@ -182,15 +250,6 @@ const Login = () => {
                 {isSignup ? "Login" : "Sign Up"}
               </button>
             </p>
-          </div>
-
-          {/* Right: Image Section */}
-          <div className="w-full max-w-xl hidden lg:block">
-            <img
-              src={getImageSrc()}
-              alt="Login Background"
-              className="rounded-2xl w-full h-auto object-cover shadow-lg"
-            />
           </div>
         </div>
       )}
