@@ -32,13 +32,13 @@ const CitizenDashboard = () => {
 
   useEffect(() => {
     const fetchComplaintStatus = async () => {
-      
+
       try {
         const token = sessionStorage.getItem('token')
         const decoded = jwtDecode(token)
         const phone = decoded.phone
         const res = await axios.get(`http://localhost:5001/api/reports/getReportStatus/${phone}`);
-        
+
         if (res.data.length > 0) {
           // assuming we care about the most recent complaint
           const latestReport = res.data[0];
@@ -46,7 +46,7 @@ const CitizenDashboard = () => {
           setReportDescription(latestReport.description)
         } else {
           setReportProgress("No reports found");
-          
+
         }
       } catch (err) {
         console.error("Error fetching complaint status:", err);
@@ -78,6 +78,7 @@ const CitizenDashboard = () => {
         const response = await axios.get(
           `http://localhost:5001/api/cases/search-by-contact?contact=${phone}`
         );
+        console.log("💥 Fetched cases response: ", response.data);
 
         setRecentAlerts(response.data.cases);
       } catch (err) {
@@ -124,11 +125,20 @@ const CitizenDashboard = () => {
             </span>
           </div>
 
-          {/* Icon on the Right */}
+          {/* Right Side: User Icon + Logout */}
           <div className="absolute right-4 flex items-center space-x-4">
             <div className="h-8 w-8 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500 flex items-center justify-center">
               <Users className="h-5 w-5 text-white" />
             </div>
+            <button
+              onClick={() => {
+                sessionStorage.clear();
+                window.location.href = "/";
+              }}
+              className="text-sm text-blue-300 hover:text-white underline transition"
+            >
+              Logout
+            </button>
           </div>
         </div>
       </nav>
@@ -155,31 +165,31 @@ const CitizenDashboard = () => {
 
           {/* Track Complaint Card */}
           <div className="bg-gradient-to-r from-cyan-600 to-blue-700 rounded-xl p-6 text-white border border-blue-400/20 hover:shadow-lg hover:shadow-blue-500/20 transform hover:-translate-y-1 transition-all duration-300">
-      <div className="flex items-center space-x-4">
-        <div className="bg-white/10 p-3 rounded-lg">
-          <FileText className="h-6 w-6 text-white" />
-        </div>
-        <div className="flex-1">
-          <h2 className="text-xl font-semibold">Track Complaint</h2>
-          <div className="mt-4">
-            <div className="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
-              <span className="text-blue-200">{reportDescription}</span>
-              <span className="text-white font-semibold">
-                {reportProgress}
-              </span>
-            </div>
+            <div className="flex items-center space-x-4">
+              <div className="bg-white/10 p-3 rounded-lg">
+                <FileText className="h-6 w-6 text-white" />
+              </div>
+              <div className="flex-1">
+                <h2 className="text-xl font-semibold">Track Complaint</h2>
+                <div className="mt-4">
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                    <span className="text-blue-200">{reportDescription}</span>
+                    <span className="text-white font-semibold">
+                      {reportProgress}
+                    </span>
+                  </div>
 
-            {/* Optional manual override button */}
-            <button
-              className="mt-4 w-full bg-white/10 hover:bg-white/20 text-white py-2 rounded-lg font-semibold transition-colors"
-              onClick={() => setReportProgress("Resolved")}
-            >
-              Mark as Resolved
-            </button>
+                  {/* Optional manual override button */}
+                  <button
+                    className="mt-4 w-full bg-white/10 hover:bg-white/20 text-white py-2 rounded-lg font-semibold transition-colors"
+                    onClick={() => setReportProgress("Resolved")}
+                  >
+                    Mark as Resolved
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
         </div>
 
         {/* Main Content */}

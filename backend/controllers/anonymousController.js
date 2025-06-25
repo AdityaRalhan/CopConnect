@@ -54,7 +54,7 @@ export const getPendingTips = async (req, res) => {
     const tips = await anonymousTip.find({ status: "Pending" }).limit(4);
 
     if (!tips.length) {
-      return res.status(404).json({ message: "No pending tips found" });
+      return res.status(200).json({ tips: [] }); // ← consistent response structure
     }
 
     return res.status(200).json({ tips });
@@ -74,7 +74,7 @@ export const getTipById = async (req, res) => {
       return res.status(404).json({ message: "Tip not found" });
     }
 
-    return res.status(200).json(tip); 
+    return res.status(200).json(tip);
 
   } catch (error) {
     console.error("Error fetching tip by ID:", error);
@@ -90,9 +90,11 @@ export const markTipAsReviewed = async (req, res) => {
   try {
     const updatedTip = await anonymousTip.findByIdAndUpdate(
       id,
-      { status: "Reviewed",
+      {
+        status: "Reviewed",
         reviewedBy: reviewedBy,
-        badgeNumber: badgeNumber },
+        badgeNumber: badgeNumber
+      },
       { new: true }
     );
 
