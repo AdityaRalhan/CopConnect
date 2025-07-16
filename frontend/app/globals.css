@@ -2,8 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(to right, #0f172a, #1e293b); /* dark gradient */
+  color: hsl(var(--foreground));
+  scroll-behavior: smooth;
 }
 
 @layer base {

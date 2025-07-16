@@ -15,12 +15,17 @@ const Navbar = () => {
             </span>
             </Link>
           </div>
-          <Link href="/supportPages/about" className="text-blue-300 hover:text-blue-100 transition-colors">
-            About Us
-          </Link>
-          <Link href="/information" className="text-blue-300 hover:text-blue-100 transition-colors">
-            About Us
-          </Link>
+          
+          {/* Replace this part inside the <div className="flex justify-between h-16 items-center"> */}
+<div className="flex items-center space-x-6">
+  <Link href="/supportPages/about" className="text-blue-300 hover:text-blue-100 hover:underline transition-all duration-200">
+    About Us
+  </Link>
+  <Link href="/information" className="text-blue-300 hover:text-blue-100 hover:underline transition-all duration-200">
+    Information
+  </Link>
+</div>
+
         </div>
       </div>
     </nav>
