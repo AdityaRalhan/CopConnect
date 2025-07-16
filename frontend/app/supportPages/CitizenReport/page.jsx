@@ -1,5 +1,5 @@
 "use client";
-import { FileText, MapPin } from "lucide-react";
+import { FileText, MapPin, ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
 import { io } from "socket.io-client";
 import { jwtDecode } from "jwt-decode"; // Correct import
@@ -16,6 +16,15 @@ const FileReportPage = () => {
   });
 
   const [message, setMessage] = useState(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const reportTypes = [
+    { value: "", label: "Select Type" },
+    { value: "Accident", label: "Accident" },
+    { value: "Crime", label: "Crime" },
+    { value: "Suspicious Activity", label: "Suspicious Activity" },
+    { value: "Emergency", label: "Emergency" },
+  ];
 
   useEffect(() => {
     // Get user info from JWT token in sessionStorage
@@ -50,12 +59,32 @@ const FileReportPage = () => {
     return () => socket.off("new_complaint"); // Cleanup on unmount
   }, []);
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isDropdownOpen && !event.target.closest('.relative')) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isDropdownOpen]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setReportData((prevState) => ({
       ...prevState,
       [name]: value, // Only update the changed field
     }));
+  };
+
+  const handleReportTypeSelect = (value) => {
+    setReportData((prevState) => ({
+      ...prevState,
+      type: value,
+    }));
+    setIsDropdownOpen(false);
   };
 
   const handleSubmit = async (e) => {
@@ -141,23 +170,45 @@ const FileReportPage = () => {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Report Type */}
-        <div>
+        <div className="relative">
           <label htmlFor="type" className="block text-sm font-medium text-blue-100 mb-1">
             Report Type
           </label>
-          <select
-            id="type"
-            name="type"
-            value={reportData.type}
-            onChange={handleChange}
-            className="w-full p-3 bg-white/10 text-white border border-blue-300/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all duration-200"
-          >
-            <option value="">Select Type</option>
-            <option value="Accident">Accident</option>
-            <option value="Crime">Crime</option>
-            <option value="Suspicious Activity">Suspicious Activity</option>
-            <option value="Emergency">Emergency</option>
-          </select>
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="w-full p-3 bg-white/10 text-white border border-blue-300/30 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all duration-200 flex items-center justify-between"
+            >
+              <span className={reportData.type ? "text-white" : "text-blue-200"}>
+                {reportData.type || "Select Type"}
+              </span>
+              <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
+            
+            {isDropdownOpen && (
+              <div className="absolute top-full left-0 right-0 mt-1 bg-gray-800/95 backdrop-blur-md border border-blue-300/30 rounded-xl shadow-2xl z-50 overflow-hidden">
+                {reportTypes.map((type) => (
+                  <button
+                    key={type.value}
+                    type="button"
+                    onClick={() => handleReportTypeSelect(type.value)}
+                    className={`w-full px-4 py-3 text-left hover:bg-blue-600/40 transition-colors duration-150 border-b border-blue-300/10 last:border-b-0 ${
+                      type.value === "" 
+                        ? "text-blue-200 italic" 
+                        : "text-white"
+                    } ${
+                      reportData.type === type.value 
+                        ? "bg-blue-600/30 text-cyan-300" 
+                        : ""
+                    }`}
+                  >
+                    {type.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Description */}
