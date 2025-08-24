@@ -8,12 +8,17 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           <div className="flex items-center">
+              <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
             <Shield className="text-blue-400 h-8 w-8" />
             <span className="ml-2 text-2xl font-bold text-white">
               CopConnect
             </span>
+            </Link>
           </div>
           <Link href="/supportPages/about" className="text-blue-300 hover:text-blue-100 transition-colors">
+            About Us
+          </Link>
+          <Link href="/information" className="text-blue-300 hover:text-blue-100 transition-colors">
             About Us
           </Link>
         </div>

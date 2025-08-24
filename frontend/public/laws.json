@@ -1,0 +1,127 @@
+[
+  {
+    "title": "Right to Information Act",
+    "description": "Empowers citizens to request information from public authorities to promote transparency.",
+    "link": "https://rti.gov.in/"
+  },
+  {
+    "title": "Consumer Protection Act",
+    "description": "Protects consumer rights against unfair trade practices and defective goods.",
+    "link": "https://consumeraffairs.nic.in/"
+  },
+  {
+    "title": "Cyber Crime Laws",
+    "description": "Covers offenses like online fraud, cyberbullying, identity theft, and hacking.",
+    "link": "https://cybercrime.gov.in/"
+  },
+  {
+    "title": "Domestic Violence Act",
+    "description": "Protects individuals from domestic abuse and provides legal remedies.",
+    "link": "https://wcd.nic.in/act/domestic-violence-act"
+  },
+  {
+    "title": "Sexual Harassment Laws",
+    "description": "Ensures protection against sexual harassment at workplaces and public spaces.",
+    "link": "https://wcd.nic.in/act/sexual-harassment-women-workplace-prevention-prohibition-and-redressal-act-2013"
+  },
+  {
+    "title": "Indian Penal Code (IPC)",
+    "description": "The primary criminal code that defines various crimes and their punishments in India.",
+    "link": "https://legislative.gov.in/sites/default/files/A1860-45.pdf"
+  },
+  {
+    "title": "Indian Contract Act",
+    "description": "Regulates contractual relationships, defining contract formation, performance, and breach consequences.",
+    "link": "https://legislative.gov.in/sites/default/files/A1872-9.pdf"
+  },
+  {
+    "title": "Motor Vehicles Act",
+    "description": "Governs road transport, driving licenses, registration, traffic rules, and penalties.",
+    "link": "https://parivahan.gov.in/parivahan/en/content/motor-vehicle-act"
+  },
+  {
+    "title": "Right to Education Act",
+    "description": "Ensures free and compulsory education to children aged 6 to 14 years in India.",
+    "link": "https://rte.tnschools.gov.in/"
+  },
+  {
+    "title": "Protection of Children from Sexual Offences (POCSO) Act",
+    "description": "Protects children from sexual abuse, harassment, and pornography with strict punishments.",
+    "link": "https://wcd.nic.in/act/child-protection"
+  },
+  {
+    "title": "The Dowry Prohibition Act",
+    "description": "Prohibits the giving or receiving of dowry, providing penalties for violations.",
+    "link": "https://wcd.nic.in/act/dowry-prohibition-act-1961"
+  },
+  {
+    "title": "Juvenile Justice Act",
+    "description": "Provides protection, care, and rehabilitation for children in conflict with the law.",
+    "link": "https://ncpcr.gov.in/index1.php?lang=1&level=0&linkid=18&lid=48"
+  },
+  {
+    "title": "Environmental Protection Act",
+    "description": "Empowers authorities to protect and improve the environment, and control pollution.",
+    "link": "https://moef.gov.in/en/environment-protection-act-1986/"
+  },
+  {
+    "title": "The Prevention of Corruption Act",
+    "description": "Aims to prevent corruption in government agencies and public sector businesses.",
+    "link": "https://legislative.gov.in/sites/default/files/A1988-49.pdf"
+  },
+  {
+    "title": "The Indian Evidence Act",
+    "description": "Lays down rules regarding admissibility of evidence in Indian courts.",
+    "link": "https://legislative.gov.in/sites/default/files/A1872-1.pdf"
+  },
+  {
+    "title": "The Maternity Benefit Act",
+    "description": "Protects women's employment during maternity and entitles them to maternity benefits.",
+    "link": "https://labour.gov.in/maternity-benefit"
+  },
+  {
+    "title": "The Payment of Gratuity Act",
+    "description": "Ensures gratuity payment to employees as a token of appreciation for service.",
+    "link": "https://labour.gov.in/payment-gratuity"
+  },
+  {
+    "title": "The Factories Act",
+    "description": "Regulates labor welfare, working conditions, and safety in factories.",
+    "link": "https://labour.gov.in/factories-act-1948"
+  },
+  {
+    "title": "The Minimum Wages Act",
+    "description": "Ensures minimum wage rates are paid to laborers in various industries.",
+    "link": "https://labour.gov.in/wage-board"
+  },
+  {
+    "title": "The Right to Privacy",
+    "description": "Recognized as a fundamental right protecting personal privacy and data in India.",
+    "link": "https://indiankanoon.org/doc/91938676/"
+  },
+  {
+    "title": "The Income Tax Act",
+    "description": "Governs taxation of individual and corporate income in India.",
+    "link": "https://www.incometax.gov.in/"
+  },
+  {
+    "title": "The Code of Criminal Procedure (CrPC)",
+    "description": "Provides the procedure for administration of substantive criminal law in India.",
+    "link": "https://legislative.gov.in/sites/default/files/A1974-02.pdf"
+  },
+  {
+    "title": "The Code of Civil Procedure (CPC)",
+    "description": "Outlines the procedures for civil litigation in Indian courts.",
+    "link": "https://legislative.gov.in/sites/default/files/A1908-05.pdf"
+  },
+  {
+    "title": "The Information Technology Act",
+    "description": "Covers cyber laws, digital contracts, electronic signatures, and data protection.",
+    "link": "https://meity.gov.in/content/information-technology-act"
+  },
+  {
+    "title": "The National Green Tribunal Act",
+    "description": "Establishes the NGT for effective disposal of environmental cases and protection laws.",
+    "link": "https://greentribunal.gov.in/"
+  }
+]

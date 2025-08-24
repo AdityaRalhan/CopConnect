@@ -66,6 +66,13 @@ const CopConnectLanding = () => {
                   <span>About Us</span>
                   <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
+                <Link
+                  href="/supportPages/information"
+                  className="text-blue-300 hover:text-blue-100 transition-colors flex items-center space-x-1 group"
+                >
+                  <span>Information</span>
+                  <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
               </div>
             </div>
           </div>
